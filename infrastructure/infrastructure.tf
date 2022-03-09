@@ -70,13 +70,42 @@ resource "aws_lambda_permission" "LambdaS3Acess" {
   ]
 }
 
+resource "tls_private_key" "PrivKey" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+resource "aws_key_pair" "generated_key" {
+  key_name   = "WindowsKey"
+  public_key = tls_private_key.PrivKey.public_key_openssh
+  depends_on = [
+    tls_private_key.PrivKey
+  ]
+}
+
+resource "null_resource" "TerraformTag" {
+  provisioner "local-exec" {
+    command = "echo '${tls_private_key.PrivKey.private_key_pem}' > ./Key.pem"
+  }
+  depends_on = [
+    tls_private_key.PrivKey,
+    aws_key_pair.generated_key
+  ]
+}
+
 resource "aws_instance" "WindowsServer" {
   ami           = "ami-0c19f80dba70861db"
   instance_type = "t2.medium"
-  security_groups = [var.aws_instance_WindowsServer_security_groups_var]
+  vpc_security_group_ids = [var.aws_instance_WindowsServer_security_groups_var]
   availability_zone = "us-east-1a"
+  associate_public_ip_address = true
+  key_name = aws_key_pair.generated_key.key_name
 
   tags = {
     Name = "WindowsServer"
   }
+
+  depends_on = [
+    tls_private_key.PrivKey
+  ]
 }
