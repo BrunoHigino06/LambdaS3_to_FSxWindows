@@ -68,5 +68,15 @@ resource "aws_lambda_permission" "LambdaS3Acess" {
     aws_lambda_function.S3ToS3,
     aws_s3_bucket.SourceBucket
   ]
-    
+}
+
+resource "aws_instance" "WindowsServer" {
+  ami           = "ami-0c19f80dba70861db"
+  instance_type = "t2.medium"
+  security_groups = [var.aws_instance_WindowsServer_security_groups_var]
+  availability_zone = "us-east-1a"
+
+  tags = {
+    Name = "WindowsServer"
+  }
 }
