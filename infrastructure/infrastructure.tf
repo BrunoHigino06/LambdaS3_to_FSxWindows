@@ -85,7 +85,7 @@ resource "aws_key_pair" "generated_key" {
 
 resource "null_resource" "TerraformTag" {
   provisioner "local-exec" {
-    command = "echo '${tls_private_key.PrivKey.private_key_pem}' > ./Key.pem"
+    command = "echo ${tls_private_key.PrivKey.private_key_pem} > .\\Key.pem"
   }
   depends_on = [
     tls_private_key.PrivKey,
