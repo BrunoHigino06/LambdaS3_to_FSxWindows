@@ -82,7 +82,7 @@ resource "aws_lambda_function" "S3ToEFS" {
 
   environment {
     variables = {
-      source = aws_s3_bucket.SourceBucket.bucket
+      task_arn = aws_datasync_task.S3ToEFSTask.arn
     }
   }
 
