@@ -30,6 +30,7 @@ resource "aws_efs_file_system" "FileServer" {
 resource "aws_efs_mount_target" "MountEast1a" {
   file_system_id = aws_efs_file_system.FileServer.id
   subnet_id      = var.aws_efs_mount_target_MountEast1a_subnet_id_var
+  security_groups = [var.aws_efs_mount_target_MountEast1a_security_groups_var]
 }
 
 # DataSync 
