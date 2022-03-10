@@ -1,7 +1,7 @@
 # S3 source and destination
 
 resource "aws_s3_bucket" "SourceBucket" {
-  bucket = "sourcebucket20220307"
+  bucket = "sourcebucket20220507"
   force_destroy = true
   
   tags = {
@@ -93,7 +93,7 @@ resource "aws_lambda_function" "S3ToEFS" {
   depends_on = [
     aws_efs_file_system.FileServer,
     aws_datasync_task.S3ToEFSTask,
-    aws_s3_bucket.SourceS3
+    aws_s3_bucket.SourceBucket
   ]
 }
 

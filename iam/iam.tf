@@ -26,7 +26,7 @@ resource "aws_iam_role_policy" "LambdaPolicy" {
 # Role for DataSync
 
 resource "aws_iam_role" "DataSyncRole" {
-  name = "LambdaRole"
+  name = "DataSyncRole"
   assume_role_policy = "${file(".\\iam\\DataSyncAssumeRole.json")}"
   tags = {
     Name = "DataSyncRole"

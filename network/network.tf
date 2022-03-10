@@ -22,6 +22,10 @@ output "aws_security_group_EC2SG_id_output" {
   value = aws_security_group.EC2SG.id
 }
 
+output "aws_security_group_EC2SG_arn_output" {
+  value = aws_security_group.EC2SG.arn
+}
+
 resource "aws_security_group_rule" "AllowAllIngress" {
   type              = "ingress"
   from_port         = 0
