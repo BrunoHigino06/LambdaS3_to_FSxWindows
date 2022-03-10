@@ -39,3 +39,21 @@ resource "aws_security_group_rule" "AllowAllEgress" {
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.EC2SG.id
 }
+
+# Subnet us-east-1a
+
+resource "aws_default_subnet" "default_az1" {
+  availability_zone = "us-east-1a"
+
+  tags = {
+    Name = "Default subnet for us-east-1a"
+  }
+}
+
+output "aws_default_subnet_default_az1_subnet_id_output" {
+  value = aws_default_subnet.default_az1.id
+}
+
+output "aws_default_subnet_default_az1_subnet_arn_output" {
+  value = aws_default_subnet.default_az1.arn
+}

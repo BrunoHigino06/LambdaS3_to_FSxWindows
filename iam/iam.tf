@@ -1,4 +1,4 @@
-# Role for code codebuild
+# Role for Lambda
 
 resource "aws_iam_role" "LambdaRole" {
   name = "LambdaRole"
@@ -20,5 +20,30 @@ resource "aws_iam_role_policy" "LambdaPolicy" {
 
   depends_on = [
     aws_iam_role.LambdaRole
+  ]
+}
+
+# Role for DataSync
+
+resource "aws_iam_role" "DataSyncRole" {
+  name = "LambdaRole"
+  assume_role_policy = "${file(".\\iam\\DataSyncAssumeRole.json")}"
+  tags = {
+    Name = "DataSyncRole"
+  }
+}
+
+output "aws_iam_role_DataSyncRole_output" {
+  value = aws_iam_role.DataSyncRole.arn
+}
+
+
+resource "aws_iam_role_policy" "DataSyncPolicy" {
+  name = "LambdaPolicy"
+  role = aws_iam_role.DataSyncRole.id
+  policy = "${file(".\\iam\\DataSyncPolicy.json")}"
+
+  depends_on = [
+    aws_iam_role.DataSyncRole
   ]
 }
